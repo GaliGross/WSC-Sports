@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import MyVideoPlayer from './MyVideoPlayer';
 
+//TODO: change state. add for each node status: inputEdit:true/false. if input was edit (inputEdit:true) then when pooling data with fetch, 
+// it will not override the node state. if inputEdit:false, node data will be ovveride. 
+// TODO: add function to deal with swiching between state data, to the fetched json.   
 class FirstPlayer extends Component{
 	constructor(props){
 		super(props);
