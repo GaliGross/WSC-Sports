@@ -9,3 +9,7 @@ body {
     clear: both;
     float:left;
 }
+
+li { list-style: square; }
+li li { list-style: square; }
+li li li { list-style: square; }
