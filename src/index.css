@@ -4,10 +4,8 @@ body {
   font-family: sans-serif;
 }
 
-.lable{
-    text-align: left;
-    clear: both;
-    float:left;
+.form-input{
+    margin-left: 5px;
 }
 /*
 li { list-style: square; }
