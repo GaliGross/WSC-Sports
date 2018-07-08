@@ -8,7 +8,6 @@ class Players extends Component{
 		super(props);
 		this.state = {
 			players:[],
-			displayPlayer:{},
 			error:{
 				msg:'',
 				showErr:false
@@ -16,7 +15,7 @@ class Players extends Component{
 		}
 	}
 
-	componentWillMount(){
+	componentDidMount(){
 			fetch(baseUrl+'/player/all')
 			    .then((response) => response.json())
 			    .then((responseJson) => {
@@ -32,7 +31,7 @@ class Players extends Component{
 		let { error: { msg, showErr }, players } = this.state;
 		return (<div>
 			{showErr && <div>{msg}</div>}
-			{players && <FirstPlayer id={players[0]} baseUrl={baseUrl}/>}
+			{players.length>0 && <FirstPlayer id={players[0]} baseUrl={baseUrl}/>}
 			</div>)
 	}
 

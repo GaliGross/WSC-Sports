@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import videoConnect  from 'react-html5video';
 import 'react-html5video/dist/styles.css';
 

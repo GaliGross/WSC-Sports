@@ -8,27 +8,26 @@ class FirstPlayer extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			player:{}
+			firstPlayer:{}
 		}
 		this.getNestedList = this.getNestedList.bind(this);
 		this.handleSubmit =this.handleSubmit.bind(this);
 		this.onChangeHandle = this.onChangeHandle.bind(this);
 	}
-
-	componentWillReceiveProps(nextProps){
+	componentDidMount(){
 		let pollingEvrySecond = ()=> {
-			fetch(nextProps.baseUrl + '/player/' + nextProps.id)
+			fetch(this.props.baseUrl + '/player/' + this.props.id)
 			.then((response) => response.json())
 			.then((responseJson)=>{
-				this.setState({player:responseJson});
+				this.setState({firstPlayer:responseJson});
 			})
 			.catch((err) =>{
 				console.error(err);
 			});
 		}
 		pollingEvrySecond();
-		setInterval(pollingEvrySecond, 1000);
-			
+		//setInterval(pollingEvrySecond, 1000);
+
 	}
 
 	handleSubmit(e){
@@ -36,7 +35,7 @@ class FirstPlayer extends Component{
 		// post all updated data
 		fetch(this.props.baseUrl + '/player/' + this.props.id, {
 		    method: 'post',
-		    body: JSON.stringify(this.state.player)})
+		    body: JSON.stringify(this.state.firstPlayer)})
 			.then((responseJson)=>{
 				//ok
 			})
@@ -46,11 +45,11 @@ class FirstPlayer extends Component{
 	}
 
 	onChangeHandle(e){
-		let { player } = this.state;
+		//let { firstPlayer } = this.state;
 		const key = e.target.getAttribute('data-key');
 		//clone state to override it with new input value
 		let  cloneState = Object.assign({},this.state);
-		let pointer = cloneState.player;
+		let pointer = cloneState.firstPlayer;
 		const keys = key.split('.');
 		for(let i=0; i<keys.length-1; i++){
 			pointer = pointer[keys[i]];
@@ -61,8 +60,8 @@ class FirstPlayer extends Component{
 	}
 
 	getNestedList(){
-		const 	{ player } =  this.state,
-				playerArr = Object.entries(player);
+		const 	{ firstPlayer } =  this.state,
+				playerArr = Object.entries(firstPlayer);
 		return (<ul className="treeview">
 				{ !!playerArr && playerArr.map((key, i)=>
 					(<li key={key[0]+i}>{this.getUlContent(key,"")}</li>))}
@@ -78,7 +77,7 @@ class FirstPlayer extends Component{
 			const key = k[0], value=k[1];
 			if(typeof value === "string"){
 				if(value.endsWith(".jpg") || value.endsWith('.png')){
-					return (<span><img src={value}/></span>);
+					return (<span><img src={value} alt="player" /></span>);
 				}
 				else if(value.endsWith(".mp4")){
 					return (<span><MyVideoPlayer src={value} width="320" height="240" controls/></span>);
@@ -112,7 +111,7 @@ class FirstPlayer extends Component{
 
 
 	render(){
-		const { player:{ player, statistics, team } } = this.state;
+		const { firstPlayer:{ player } } = this.state;
 		
 		return (<div>
 			{player && <form onSubmit={this.handleSubmit}>{this.getNestedList()}
