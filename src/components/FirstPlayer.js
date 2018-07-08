@@ -45,7 +45,6 @@ class FirstPlayer extends Component{
 	}
 
 	onChangeHandle(e){
-		//let { firstPlayer } = this.state;
 		const key = e.target.getAttribute('data-key');
 		//clone state to override it with new input value
 		let  cloneState = Object.assign({},this.state);
@@ -55,7 +54,7 @@ class FirstPlayer extends Component{
 			pointer = pointer[keys[i]];
 		}
 		//override coloned state with input data
-		pointer[keys[keys.length-1]] = e.target.value;
+		pointer[keys[keys.length-1]] = isNaN(e.target.value) ? e.target.value : Number(e.target.value);
 		this.setState(cloneState);
 	}
 
@@ -64,30 +63,30 @@ class FirstPlayer extends Component{
 				playerArr = Object.entries(firstPlayer);
 		return (<ul className="treeview">
 				{ !!playerArr && playerArr.map((key, i)=>
-					(<li key={key[0]+i}>{this.getUlContent(key,"")}</li>))}
+					(<li className="bulet-0" key={key[0]+i}>{this.getUlContent(key,"",0)}</li>))}
 				<input type="submit" value="Save" /></ul>)
 	}
 
 	/*
 	* @return one of the following tags: input, img or video, and nested list <ul> 
 	*/
-	getUlContent(k,i){
+	getUlContent(k,i,bulletDurker){
 		let statePath = (i !== "") ? i + "." +k[0] : k[0]; 
   		if(Array.isArray(k)){
 			const key = k[0], value=k[1];
 			if(typeof value === "string"){
 				if(value.endsWith(".jpg") || value.endsWith('.png')){
-					return (<span><img src={value} alt="player" /></span>);
+					return (<span className="image-wrapper"><input type="text" value={value} data-key={statePath} onChange={this.onChangeHandle}/><img src={value} alt="player" /></span>);
 				}
 				else if(value.endsWith(".mp4")){
-					return (<span><MyVideoPlayer src={value} width="320" height="240" controls/></span>);
+					return (<span className="image-wrapper"><input type="text" value={value} data-key={statePath} onChange={this.onChangeHandle}/><MyVideoPlayer src={value} width="320" height="240" controls/></span>);
 				}
 				//return input text - value need to point to state path
 				return (<span>{key}<input type="text" value={value} data-key={statePath} onChange={this.onChangeHandle}/></span>)
 			}
 			if(typeof value === "number"){
 				//returns input number
-				return (<span>{key}<input type="number" value={value} data-key={statePath} onChange={e=> this.setState({})}/></span>)
+				return (<span>{key}<input type="number" value={value} data-key={statePath} onChange={this.onChangeHandle}/></span>)
 			}
 			if(typeof value === "object"){
 				//return <ul><ul>
@@ -96,8 +95,11 @@ class FirstPlayer extends Component{
 				if(statePath.endsWith(key)){
 					newStatePath = statePath;
 				}
-				//if (!valueArr){return}
-				return (<span>{key}<ul>{key && valueArr.map((k, j)=>(<li key={key+i+j}>{this.getUlContent(k, newStatePath)}</li>))}</ul></span>)
+				
+				bulletDurker += 40;
+				let bulletStyle = `bulet-${bulletDurker}`;
+
+				return (<span>{key}<ul>{key && valueArr.map((k, j)=>(<li className={bulletStyle} key={key+i+j}>{this.getUlContent(k, newStatePath,bulletDurker)}</li>))}</ul></span>)
 			}	
 		}
 	}
