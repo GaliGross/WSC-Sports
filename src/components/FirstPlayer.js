@@ -10,10 +10,10 @@ class FirstPlayer extends Component {
       firstPlayer: {}, // read only
       firstPlayerEdited: {} // a copy of firstPlayer fetched from service. can be override by input data
     };
-    this.getNestedList = this.getNestedList.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateState = this.updateState.bind(this);
   }
+
   componentDidMount() {
     let isFetchFirstTime = true;
     let pollingEvrySecond = () => {

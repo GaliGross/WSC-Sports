@@ -14,12 +14,17 @@ class FormInput extends Component {
 
   onChangeHandle(e) {
     this.setState({ value: e.target.value, edited: true });
+    this.props.onChanedHandler && this.props.onChanedHandler(e);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     const { edited, initalValue } = this.state;
     if (edited && nextProps.value !== initalValue) {
       return false;
+    }
+    if(!edited && nextProps.value === initalValue){
+      // if new value was fetched will write the new value to firstPlayerEdited
+     
     }
     return true;
   }

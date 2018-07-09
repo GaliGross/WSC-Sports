@@ -9,6 +9,7 @@ class FormImage extends Component {
       value: this.props.value,
       edited: false
     };
+    this.onChanedHandler = this.onChanedHandler.bind(this);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -16,7 +17,15 @@ class FormImage extends Component {
     if (edited && nextProps.value !== initalValue) {
       return false;
     }
+    if(!edited && nextProps.value === initalValue){
+      // if new value was fetched will write the new value to firstPlayerEdited
+     
+    }
     return true;
+  }
+
+  onChanedHandler(e){
+    this.setState({value:e.target.value, edited:true});
   }
 
   render() {
@@ -27,6 +36,7 @@ class FormImage extends Component {
           lable=""
           value={value}
           type="text"
+          onChanedHandler={this.onChanedHandler}
           updateStateHendler={this.props.updateStateHendler}
           statePath={this.props.statePath}
         />
