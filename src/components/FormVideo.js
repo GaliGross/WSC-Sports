@@ -18,9 +18,10 @@ class FormVideo extends Component {
     if (edited && nextProps.value !== initalValue) {
       return false;
     }
-    if(!edited && nextProps.value === initalValue){
-      // if new value was fetched will write the new value to firstPlayerEdited
-    
+    if(!edited && nextProps.value !== initalValue){
+      // if new value was fetched will update state
+      this.setState({initalValue:nextProps.value, value: nextProps.value})
+     
     }
     return true;
   }
